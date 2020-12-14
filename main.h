@@ -15,4 +15,4 @@ extern void printMenu();
 
 // typingMeasure
 extern void getScriptLine();
-extern void getTyping();
+extern int getTyping();

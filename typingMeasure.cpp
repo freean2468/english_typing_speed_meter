@@ -7,7 +7,7 @@ static int currentLine = 0;
 
 void getScriptLine();
 void initCharArray(char*, int, int);
-void getTyping();
+int getTyping();
 
 void getScriptLine() {
     int scriptArrayIndex = 0;
@@ -50,14 +50,14 @@ void initCharArray(char* p, int col, int row) {
     }
 }
 
-void getTyping() {
+int getTyping() {
     int typingArrayIndex = 0;
     while (1) {
         int c = zeroBufferGetchar();
 
         if (c < -1) {
             printf("Something Bad happened : %d\n", c);
-            return ;
+            return c;
         }
         else if (c == 8) // backspace 
             *((char*)((char*)(typingArray+currentLine)+--typingArrayIndex)) = ' ';
@@ -66,8 +66,11 @@ void getTyping() {
 
         if (*((char*)((char*)(scriptArray+currentLine)+typingArrayIndex)) == '\0') {
             currentLine++;
+            printf("\n");
             break;
         }
         printf("%c", c);
     }
+
+    return 0;
 }
