@@ -10,7 +10,7 @@ int main(void) {
     
     printMenu();
 
-    while (scriptArray[scriptIndex]) {
+    while (script[scriptIndex]) {
         getScriptLine();
         getTyping();
 

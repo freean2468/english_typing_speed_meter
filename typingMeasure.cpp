@@ -1,8 +1,9 @@
 #include "main.h"
+#include "helper.h"
 
-char scriptArray[LINES_IN_PAGE][MAX_LENGTH] = {0};
-char typingArray[LINES_IN_PAGE][MAX_LENGTH] = {0};
-int currentLine = 0;
+static char scriptArray[LINES_IN_PAGE][MAX_LENGTH] = {0};
+static char typingArray[LINES_IN_PAGE][MAX_LENGTH] = {0};
+static int currentLine = 0;
 
 void getScriptLine();
 void initCharArray(char*, int, int);
@@ -39,8 +40,6 @@ void getScriptLine() {
         printf("%c", *((char*)((char*)(scriptArray+currentLine))+i));
 
     printf("\n");
-
-    currentLine++;
 }
 
 void initCharArray(char* p, int col, int row) {
@@ -53,16 +52,22 @@ void initCharArray(char* p, int col, int row) {
 
 void getTyping() {
     int typingArrayIndex = 0;
-    // while (1) {
-    //     int c = getch();
+    while (1) {
+        int c = zeroBufferGetchar();
 
-    //     if (c == 8) // backspace 
-    //         *((char*)(typingArray+--typingArrayIndex)) = ' ';
-    //     else 
-    //         *((char*)(typingArray+typingArrayIndex++)) = c;           
+        if (c < -1) {
+            printf("Something Bad happened : %d\n", c);
+            return ;
+        }
+        else if (c == 8) // backspace 
+            *((char*)((char*)(typingArray+currentLine)+--typingArrayIndex)) = ' ';
+        else 
+            *((char*)((char*)(typingArray+currentLine)+typingArrayIndex++)) = c;           
 
-    //     if (*((char*)(typingArray+typingArrayIndex)) == '\0')
-    //         break;
-    //     // printf("%c", c);
-    // }
+        if (*((char*)((char*)(scriptArray+currentLine)+typingArrayIndex)) == '\0') {
+            currentLine++;
+            break;
+        }
+        printf("%c", c);
+    }
 }
