@@ -1,4 +1,4 @@
-// Configure TeleTYpe STanDard INput attributes
+﻿// Configure TeleTYpe STanDard INput attributes
 // to have zero buffer
 // so that it enables us to save input data from an user into an array without echoing.
 // 플랫폼(Windows, or xnix)에 따라 이를 설정하는 방법이 달리지기 때문에 이에 대한 처리를 해줘야 함.
@@ -14,6 +14,7 @@
 #include "helper.h"
 
 #ifdef _WIN32
+#include <windows.h>
 static DWORD stdin_mode;
 #elif __APPLE__
 #include <termios.h>
@@ -26,11 +27,11 @@ int save_tty_attributes() {
 #ifdef _WIN32
 	HANDLE hstdin = GetStdHandle(STD_INPUT_HANDLE);
 
-	if (!GetConsoleMode(hstdin, &mode))
-		return -1;
+	if (!GetConsoleMode(hstdin, &stdin_mode))
+		return ERR_SAVE_TTY_GETATTR;
 
 	if (hstdin == INVALID_HANDLE_VALUE || !(SetConsoleMode(hstdin, 0)))
-		return -1; /* Failed to disable buffering */
+		return ERR_SAVE_TTY_GETATTR; /* Failed to disable buffering */
 #elif __APPLE__
 	struct termios tty_attr;
 
@@ -49,8 +50,10 @@ int save_tty_attributes() {
 
 int restore_tty_attributes(){
 #ifdef _WIN32
-	if (!SetConsoleMode(hstdin, mode))
-		return -1;
+	HANDLE hstdin = GetStdHandle(STD_INPUT_HANDLE);
+
+	if (!SetConsoleMode(hstdin, stdin_mode))
+		return ERR_RESTORE_TTY_SETATTR;
 #elif __APPLE__
     struct termios tty_attr;
     if (tcgetattr(STDIN_FILENO, &tty_attr) < 0)
@@ -69,10 +72,12 @@ int zeroBufferGetchar(){
 	int c = 0;
     int res = 0;
 	if ((res = save_tty_attributes()) < 0) {
+		printf("error : %d", ERR_SAVE_TTY_GETATTR);
         return res;
     }
 	c = getchar();
 	if ((res = restore_tty_attributes()) < 0) {
+		printf("error : %d", ERR_SAVE_TTY_GETATTR);
         return res;
     }
 	return c;
@@ -80,11 +85,19 @@ int zeroBufferGetchar(){
 
 // ANSI escape codes
 void saveCursorPos() {
+#ifdef _WIN32
+	printf("\x1b[s");
+#else
 	printf("\033[s");
+#endif
 }
 
 void rollBackCursorPos() {
+#ifdef _WIN32
+	printf("\x1b[u");
+#else
 	printf("\033[u");
+#endif
 }
 
 void setRed() {

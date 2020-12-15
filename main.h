@@ -1,4 +1,4 @@
-#define WORDS_IN_LINE 10
+﻿#define WORDS_IN_LINE 10
 #define LINES_IN_PAGE 4
 
 #define IN  1

@@ -1,14 +1,4 @@
-#include "main.h"
-#include "helper.h"
-
-static char scriptArray[LINES_IN_PAGE][MAX_LENGTH] = {0};
-static char typingArray[LINES_IN_PAGE][MAX_LENGTH] = {0};
-static int currentLine = 0;
-
-void getScriptLine();
-void initCharArray(char*, int, int);
-int getTyping();
-void printTyping(char*);
+#include "typingMeasure.h"
 
 void getScriptLine() {
     int scriptArrayIndex = 0;
@@ -61,8 +51,15 @@ int getTyping() {
             printf("Something Bad happened : %d\n", c);
             return c;
         }
+#ifdef _WIN32
+        else if (c == 8 && typingArrayIndex > 0) { // backspace 
+#else
         else if (c == 127 && typingArrayIndex > 0) { // backspace 
+#endif
             *((char*)((char*)(typingArray+currentLine)+--typingArrayIndex)) = '\0';
+        }
+        else if (c == 13) { // enter
+            continue;
         }
         else 
             *((char*)((char*)(typingArray+currentLine)+typingArrayIndex++)) = c;           
@@ -83,9 +80,12 @@ void printTyping(char* p) {
     int typingValue = 0;
     int scriptValue = 0;
 
+    rollBackCursorPos();
+
     // clean stdout screen out
-    while(*pScriptArray++)
+    while (*pScriptArray++) {
         printf(" ");
+    }
     
     pScriptArray = (char*)(scriptArray+currentLine);
 
