@@ -8,6 +8,7 @@ static int currentLine = 0;
 void getScriptLine();
 void initCharArray(char*, int, int);
 int getTyping();
+void printTyping(char*);
 
 void getScriptLine() {
     int scriptArrayIndex = 0;
@@ -40,6 +41,7 @@ void getScriptLine() {
         printf("%c", *((char*)((char*)(scriptArray+currentLine))+i));
 
     printf("\n");
+    saveCursorPos();
 }
 
 void initCharArray(char* p, int col, int row) {
@@ -59,18 +61,40 @@ int getTyping() {
             printf("Something Bad happened : %d\n", c);
             return c;
         }
-        else if (c == 8) // backspace 
-            *((char*)((char*)(typingArray+currentLine)+--typingArrayIndex)) = ' ';
+        else if (c == 127 && typingArrayIndex > 0) { // backspace 
+            *((char*)((char*)(typingArray+currentLine)+--typingArrayIndex)) = '\0';
+        }
         else 
             *((char*)((char*)(typingArray+currentLine)+typingArrayIndex++)) = c;           
 
         if (*((char*)((char*)(scriptArray+currentLine)+typingArrayIndex)) == '\0') {
             currentLine++;
-            printf("\n");
+            printf("\n\n");
             break;
         }
-        printf("%c", c);
+        printTyping((char*)(typingArray+currentLine));
     }
 
     return 0;
+}
+
+void printTyping(char* p) {
+    char* pScriptArray = (char*)(scriptArray+currentLine);
+    int typingValue = 0;
+    int scriptValue = 0;
+
+    // clean stdout screen out
+    while(*pScriptArray++)
+        printf(" ");
+    
+    pScriptArray = (char*)(scriptArray+currentLine);
+
+    rollBackCursorPos();
+
+    while(*p) {
+        if (*p != *pScriptArray++)
+            setRed();
+        printf("%c", *(p++));
+        reset();
+    }
 }

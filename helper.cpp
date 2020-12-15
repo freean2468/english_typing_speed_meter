@@ -77,3 +77,24 @@ int zeroBufferGetchar(){
     }
 	return c;
 }
+
+// ANSI escape codes
+void saveCursorPos() {
+	printf("\033[s");
+}
+
+void rollBackCursorPos() {
+	printf("\033[u");
+}
+
+void setRed() {
+	printf("\033[1;31m");
+}
+
+void reset () {
+  	printf("\033[0m");
+}
+
+void moveCursorLeftOneBlock(void) {
+	printf("\033[1D");
+}

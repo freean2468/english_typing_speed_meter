@@ -11,3 +11,9 @@ enum errors {
 extern int save_tty_attributes();
 extern int restore_tty_attributes();
 extern int zeroBufferGetchar();
+
+extern void saveCursorPos();
+extern void rollBackCursorPos();
+extern void setRed();
+extern void reset ();
+extern void moveCursorLeftOneBlock(void);
