@@ -1,4 +1,4 @@
-#include "main.h"
+ï»¿#include "main.h"
 #include "helper.h"
 
 #define STARTED 1
@@ -7,7 +7,7 @@
 static char scriptArray[LINES_IN_PAGE][MAX_LENGTH] = { 0 };
 static char typingArray[LINES_IN_PAGE][MAX_LENGTH] = { 0 };
 
-// ÇÁ·Î±×·¥ ·ÎÁ÷¿¡ °¡Àå Áß¿äÇÑ º¯¼öµéÀ» ÇÏ³ª·Î ¹­ÀÚ
+// í”„ë¡œê·¸ë¨ ë¡œì§ì— ê°€ì¥ ì¤‘ìš”í•œ ë³€ìˆ˜ë“¤ì„ í•˜ë‚˜ë¡œ ë¬¶ì
 typedef struct systemVariables {
 	int currentLine;
 	int typingCount;

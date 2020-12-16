@@ -1,18 +1,18 @@
-#include "typingMeasure.h"
+ï»¿#include "typingMeasure.h"
 
-// Å¸ÀÚ¼Óµµ, Á¤È®µµ ÃøÁ¤ º¯¼ö ÃÊ±âÈ­
+// íƒ€ìì†ë„, ì •í™•ë„ ì¸¡ì • ë³€ìˆ˜ ì´ˆê¸°í™”
 void initSystemVariables() {
     timeStarted = time(NULL);
     sysVal.typingCount = 0;
 }
 
-// script¿¡¼­ ÇÑ ÁÙÀ» ÀĞ¾î¿Â´Ù.
+// scriptì—ì„œ í•œ ì¤„ì„ ì½ì–´ì˜¨ë‹¤.
 void getScriptLine() {
     int scriptArrayIndex = 0;
     int col = sizeof(scriptArray) / sizeof(scriptArray[0]);
     int row = sizeof(scriptArray[0]) / sizeof(scriptArray[0][0]);
 
-    // ÇÑ ÆäÀÌÁö°¡ ³¡³ª¸é ÃÊ±âÈ­
+    // í•œ í˜ì´ì§€ê°€ ëë‚˜ë©´ ì´ˆê¸°í™”
     if (!(sysVal.currentLine % LINES_IN_PAGE)) {
         //printf("col : %d, row : %d\n", col, row);
         initCharArray(&scriptArray[0][0], col, row);
@@ -31,7 +31,7 @@ void getScriptLine() {
 
     //printf("currentLine : %d\n", currentLine);
 
-    // ½ºÅ©¸³Æ®·ÎºÎÅÍ ÇÑ ÁÙÀ» ÇÑ ±ÛÀÚ¾¿ º¹»çÇØ¿Â´Ù.
+    // ìŠ¤í¬ë¦½íŠ¸ë¡œë¶€í„° í•œ ì¤„ì„ í•œ ê¸€ìì”© ë³µì‚¬í•´ì˜¨ë‹¤.
     for (int i = 0; i < WORDS_IN_LINE; ++i) {
         while (script[scriptIndex] != ' ' && script[scriptIndex] != '\0') {
             // scriptArray[sysVal.currentLine][scriptArrayIndex++]
@@ -50,7 +50,7 @@ void getScriptLine() {
     // scriptArray[sysVal.currentLine][scriptArrayIndex++]
     *((char*)((char*)(scriptArray+ sysVal.currentLine))+scriptArrayIndex++) = '\0';
 
-    // ÀÔ·Â ¹Ş¾Æ ¿Â ÇÑ ÁÙÀ» Ãâ·Â
+    // ì…ë ¥ ë°›ì•„ ì˜¨ í•œ ì¤„ì„ ì¶œë ¥
     // scriptArray[sysVal.currentLine][i]
     for (int i = 0; *((char*)((char*)(scriptArray + sysVal.currentLine)) + i); i++) {
         // scriptArray[sysVal.currentLine][i]
@@ -58,11 +58,11 @@ void getScriptLine() {
     }
     printf("\n");
 
-    // ÇöÀç Ä¿¼­ À§Ä¡¿¡¼­ºÎÅÍ »ç¿ëÀÚÀÇ ÀÔ·ÂÀÌ Ãâ·ÂµÇµµ·Ï À§Ä¡ ÀúÀå.
+    // í˜„ì¬ ì»¤ì„œ ìœ„ì¹˜ì—ì„œë¶€í„° ì‚¬ìš©ìì˜ ì…ë ¥ì´ ì¶œë ¥ë˜ë„ë¡ ìœ„ì¹˜ ì €ì¥.
     saveCursorPos();
 }
 
-// 2Â÷¿ø ¹è¿­ Ãâ·Â
+// 2ì°¨ì› ë°°ì—´ ì¶œë ¥
 void printCharArray(char* p, int col, int row) {
     //printf("print : ");
     for (int i = 0; i < col; ++i) {
@@ -72,7 +72,7 @@ void printCharArray(char* p, int col, int row) {
     }
 }
 
-// 2Â÷¿ø ¹è¿­ ÃÊ±âÈ­
+// 2ì°¨ì› ë°°ì—´ ì´ˆê¸°í™”
 void initCharArray(char* p, int col, int row) {
     for (int i = 0; i < col; ++i) {
         for (int j = 0; j < row; ++j) {
@@ -81,27 +81,27 @@ void initCharArray(char* p, int col, int row) {
     }
 }
 
-// »ç¿ëÀÚ·ÎºÎÅÍ ÀÔ·ÂÀ» ¹Ş°í ¼Óµµ ¹× Á¤È®µµ¸¦ ÃøÁ¤
+// ì‚¬ìš©ìë¡œë¶€í„° ì…ë ¥ì„ ë°›ê³  ì†ë„ ë° ì •í™•ë„ë¥¼ ì¸¡ì •
 int getTyping() {
     sysVal.typingArrayIndex = 0;
 
-    // ½ÃÀÛ Àü ÀÔ·Â, Ãâ·Â ¹öÆÛ¸¦ ¸ğµÎ »èÁ¦
+    // ì‹œì‘ ì „ ì…ë ¥, ì¶œë ¥ ë²„í¼ë¥¼ ëª¨ë‘ ì‚­ì œ
     rewind(stdin);
     rewind(stdout);
 
     while (1) {
-        // ÇÑ ±ÛÀÚ¾¿ ¹Ş¾Æ¿Í¼­
+        // í•œ ê¸€ìì”© ë°›ì•„ì™€ì„œ
         int c = zeroBufferGetchar();
 
 #ifdef _WIN32
-        // backspace¿Í enter°¡ ¾Æ´Ï¸é
+        // backspaceì™€ enterê°€ ì•„ë‹ˆë©´
         if (c != 8 && c != 13)
 #else
         if (c != 127 && c != 13)
 #endif
             sysVal.typingCount++;
 
-        // ÅÍ¹Ì³Î Á¶ÀÛÀÌ ºÒ°¡´ÉÇÑ °æ¿ì.
+        // í„°ë¯¸ë„ ì¡°ì‘ì´ ë¶ˆê°€ëŠ¥í•œ ê²½ìš°.
         if (c < -1) {
             printf("Something Bad happened : %d\n", c);
             return c;
@@ -111,43 +111,43 @@ int getTyping() {
 #else
         else if (c == 127 && typingArrayIndex > 0) { // backspace 
 #endif
-            // »èÁ¦
+            // ì‚­ì œ
             // typingArray[sysVal.currentLine][--sysVal.typingArrayIndex];
             *((char*)((char*)(typingArray+ sysVal.currentLine)+--sysVal.typingArrayIndex)) = '\0';
         }
-        else if (c == 13) { // enter ¹«½Ã
+        else if (c == 13) { // enter ë¬´ì‹œ
             continue;
         }
         else {
-            // ÀÔ·Â
+            // ì…ë ¥
             // typingArray[sysVal.currentLine][sysVal.typingArrayIndex++];
             *((char*)((char*)(typingArray + sysVal.currentLine) + sysVal.typingArrayIndex++)) = c;
         }
 
-        // ÇÑ ÁÙ ³¡
+        // í•œ ì¤„ ë
         // typingArray[sysVal.currentLine][sysVal.typingArrayIndex];
         if (*((char*)((char*)(scriptArray+ sysVal.currentLine)+ sysVal.typingArrayIndex)) == '\0') {
             sysVal.currentLine++;
             printf("\n\n\n");
             break;
         }
-        // ÀÔ·Â °ª Ãâ·Â
+        // ì…ë ¥ ê°’ ì¶œë ¥
         printTyping((char*)(typingArray+ sysVal.currentLine), sysVal.typingArrayIndex);
     }
 
     return 0;
 }
 
-// ÀÔ·Â°ªÀ» °¡Áø ¹è¿­À» Ãâ·Â
+// ì…ë ¥ê°’ì„ ê°€ì§„ ë°°ì—´ì„ ì¶œë ¥
 void printTyping(char* p, int until) {
     char* pScriptArray = (char*)(scriptArray+ sysVal.currentLine);
     int typingValue = 0;
     int scriptValue = 0;
     int index = 0;
 
-    printf("\nÅ¸¼Ó : %3d, Á¤È®µµ : %3d", calculateTypingSpeed(), calculateTypingAccuracy());
+    printf("\níƒ€ì† : %3d, ì •í™•ë„ : %3d", calculateTypingSpeed(), calculateTypingAccuracy());
 
-    // Ä¿¼­ À§Ä¡¸¦ º¹±¸
+    // ì»¤ì„œ ìœ„ì¹˜ë¥¼ ë³µêµ¬
     rollBackCursorPos();
 
     // clean stdout screen out
@@ -160,9 +160,9 @@ void printTyping(char* p, int until) {
     rollBackCursorPos();
 
     while(index++ < until) {
-        // ¿ÀÅ¸¸é
+        // ì˜¤íƒ€ë©´
         if (*p != *pScriptArray++) {
-            // »¡°²°Ô
+            // ë¹¨ê°›ê²Œ
             setRed();
         }
         printf("%c", *(p++));
@@ -170,16 +170,17 @@ void printTyping(char* p, int until) {
     }
 }
 
-// ¿ÀÅ¸À² ÃøÁ¤
+// ì˜¤íƒ€ìœ¨ ì¸¡ì •
 int calculateTypingAccuracy() {
     int totalCount = 0;
     int differentCount = 0;
 
     for (int i = 0; i <= sysVal.currentLine; ++i) {
         int until = (i == sysVal.currentLine) ? sysVal.typingArrayIndex : MAX_LENGTH;
+        until -= 1;
         for (int j = 0; j < until; ++j) {
-            // *((char*)((char*)(typingArray + i) + j)) == '\0'
-            if (!(*((char*)((char*)(typingArray + i) + j))))
+            // *((char*)((char*)(scriptArray + i) + j)) == '\0'
+            if (!(*((char*)((char*)(scriptArray + i) + j))))
                 break;
             totalCount++;
             // typingArray[i][j] != scriptArray[i][j]
@@ -187,19 +188,24 @@ int calculateTypingAccuracy() {
                 differentCount++;
         }
     }
-    return (int)(100 * (sysVal.typingCount-differentCount) / (double)sysVal.typingCount);
+
+    int diff = sysVal.typingCount - differentCount;
+    
+    diff = (diff < 0) ? 0 : diff;
+
+    return (int)(100 * diff / (double)sysVal.typingCount);
 }
 
-// Å¸ÀÚ ¼Óµµ ÃøÁ¤
+// íƒ€ì ì†ë„ ì¸¡ì •
 int calculateTypingSpeed() {
     time_t timeFlowing = time(NULL);
     int speed = (int)((double)sysVal.typingCount * 60.0 / (timeFlowing - timeStarted));
     return (speed > 1000 || speed < 0) ? 0 : speed;
 }
 
-// ÇÑ ÆäÀÌÁö °á°ú Ãâ·Â
+// í•œ í˜ì´ì§€ ê²°ê³¼ ì¶œë ¥
 void printResult() {
-    printf("ÇöÀç ÆäÀÌÁöÀÇ ÃÖÁ¾ Å¸¼Ó: %d, Á¤È®µµ : %d ÀÔ´Ï´Ù\n", calculateTypingSpeed(), calculateTypingAccuracy());
-    printf("´ÙÀ½ ÆäÀÌÁö¸¦ ÁøÇàÇÏ·Á¸é enter¸¦ ´©¸£¼¼¿ä.");
+    printf("í˜„ì¬ í˜ì´ì§€ì˜ ìµœì¢… íƒ€ì†: %d, ì •í™•ë„ : %d ì…ë‹ˆë‹¤\n", calculateTypingSpeed(), calculateTypingAccuracy());
+    printf("ë‹¤ìŒ í˜ì´ì§€ë¥¼ ì§„í–‰í•˜ë ¤ë©´ enterë¥¼ ëˆ„ë¥´ì„¸ìš”.");
     getchar();
 }

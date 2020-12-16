@@ -1,4 +1,4 @@
-#include <stdio.h>
+ï»¿#include <stdio.h>
 #include <stdlib.h>
 
 // error codes
@@ -9,7 +9,7 @@ enum errors {
     ERR_RESTORE_TTY_SETATTR = -4
 };
 
-// ÇïÆÛ ÇÔ¼öµéÀº ¹Ù±ù¿¡¼­ ¾µ ¼ö ÀÖµµ·Ï externÃ³¸®.
+// í—¬í¼ í•¨ìˆ˜ë“¤ì€ ë°”ê¹¥ì—ì„œ ì“¸ ìˆ˜ ìˆë„ë¡ externì²˜ë¦¬.
 int save_tty_attributes();
 int restore_tty_attributes();
 extern int zeroBufferGetchar();
