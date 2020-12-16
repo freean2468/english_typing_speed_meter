@@ -7,6 +7,7 @@
 static char scriptArray[LINES_IN_PAGE][MAX_LENGTH] = { 0 };
 static char typingArray[LINES_IN_PAGE][MAX_LENGTH] = { 0 };
 
+// 프로그램 로직에 가장 중요한 변수들을 하나로 묶자
 typedef struct systemVariables {
 	int currentLine;
 	int typingCount;

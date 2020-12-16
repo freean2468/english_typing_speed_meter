@@ -13,6 +13,7 @@
 */
 #include "helper.h"
 
+// 각 OS 호환을 위한 전처리
 #ifdef _WIN32
 #include <windows.h>
 static DWORD stdin_mode;
@@ -23,6 +24,7 @@ struct termios tty_attr;
 static tcflag_t c_lflag = tty_attr.c_lflag;
 #endif
 
+// 각 OS에 따른 터미널 조작
 int save_tty_attributes() {
 #ifdef _WIN32
 	HANDLE hstdin = GetStdHandle(STD_INPUT_HANDLE);
@@ -48,6 +50,7 @@ int save_tty_attributes() {
     return NO_ERR;
 }
 
+// 각 OS에 따른 터미널 기본값으로 다시 설정
 int restore_tty_attributes(){
 #ifdef _WIN32
 	HANDLE hstdin = GetStdHandle(STD_INPUT_HANDLE);
@@ -68,6 +71,7 @@ int restore_tty_attributes(){
     return NO_ERR;
 }
 
+// 터미널에서 입력 버퍼를 없애고 입력을 screen에 표시 없이 바로 프로그램 배열에 저장해 사용
 int zeroBufferGetchar(){
 	int c = 0;
     int res = 0;
@@ -83,7 +87,9 @@ int zeroBufferGetchar(){
 	return c;
 }
 
+//
 // ANSI escape codes
+//
 void saveCursorPos() {
 	printf("\033[s");
 }

@@ -1,4 +1,6 @@
-﻿#include <stdio.h>
+﻿// 첫 화면 UI
+
+#include <stdio.h>
 #include "helper.h"
 
 #ifdef _WIN32
