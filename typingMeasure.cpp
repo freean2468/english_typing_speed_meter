@@ -125,8 +125,9 @@ int getTyping() {
         }
 
         // 한 줄 끝
-        // typingArray[sysVal.currentLine][sysVal.typingArrayIndex];
-        if (*((char*)((char*)(scriptArray+ sysVal.currentLine)+ sysVal.typingArrayIndex)) == '\0') {
+        // typingArray[sysVal.currentLine][sysVal.typingArrayIndex] == '\0';
+        if (!(*((char*)((char*)(scriptArray+ sysVal.currentLine)+ sysVal.typingArrayIndex)))) {
+            *((char*)((char*)(typingArray + sysVal.currentLine) + sysVal.typingArrayIndex)) = (*((char*)((char*)(scriptArray + sysVal.currentLine) + sysVal.typingArrayIndex)));
             sysVal.currentLine++;
             printf("\n\n\n");
             break;
@@ -145,7 +146,7 @@ void printTyping(char* p, int until) {
     int scriptValue = 0;
     int index = 0;
 
-    printf("\n타속 : %3d, 정확도 : %3d", calculateTypingSpeed(), calculateTypingAccuracy());
+    printf("\n타속 : %3d, 정확도 : %3d%%", calculateTypingSpeed(), calculateTypingAccuracy());
 
     // 커서 위치를 복구
     rollBackCursorPos();
