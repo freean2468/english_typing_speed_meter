@@ -17,3 +17,4 @@ extern void rollBackCursorPos();
 extern void setRed();
 extern void reset ();
 extern void moveCursorLeftOneBlock(void);
+extern void clearScreen();

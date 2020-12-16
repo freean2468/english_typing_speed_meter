@@ -1,10 +1,14 @@
-﻿#define WORDS_IN_LINE 10
+﻿#include <time.h>
+
+#define WORDS_IN_LINE 12
 #define LINES_IN_PAGE 4
 
 #define IN  1
 #define OUT 0
 
 #define MAX_LENGTH 100 // 좀 더 적절한 수치를 측정해낼 수 없을까?
+
+extern time_t timeStarted;
 
 // script
 extern int scriptIndex;

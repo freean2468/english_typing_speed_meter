@@ -85,19 +85,11 @@ int zeroBufferGetchar(){
 
 // ANSI escape codes
 void saveCursorPos() {
-#ifdef _WIN32
-	printf("\x1b[s");
-#else
 	printf("\033[s");
-#endif
 }
 
 void rollBackCursorPos() {
-#ifdef _WIN32
-	printf("\x1b[u");
-#else
 	printf("\033[u");
-#endif
 }
 
 void setRed() {
@@ -110,4 +102,8 @@ void reset () {
 
 void moveCursorLeftOneBlock(void) {
 	printf("\033[1D");
+}
+
+void clearScreen() {
+	system("cls");
 }

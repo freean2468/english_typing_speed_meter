@@ -148,7 +148,7 @@
   <ItemGroup>
     <ClInclude Include="..\..\helper.h" />
     <ClInclude Include="..\..\main.h" />
-    <ClInclude Include="typingMeasure.h" />
+    <ClInclude Include="..\..\typingMeasure.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
